@@ -1,9 +1,9 @@
 FROM node:18-bullseye
 
-# Create app directory
+# Tạo thư mục làm việc
 WORKDIR /app
 
-# Install system dependencies for puppeteer
+# Cài các thư viện cần thiết cho Puppeteer
 RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
@@ -24,14 +24,11 @@ RUN apt-get update && apt-get install -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy source files
+# Copy source code vào container
 COPY . .
 
-# Install n8n and puppeteer
-RUN npm install n8n puppeteer
+# Cài puppeteer (và các thư viện khác nếu có)
+RUN npm install puppeteer
 
-# Expose port
-EXPOSE 5678
-
-# Start n8n
-CMD ["n8n"]
+# Chạy file Puppeteer chính (ví dụ crawl-aeon.js)
+CMD ["node", "crawl-aeon.js"]
