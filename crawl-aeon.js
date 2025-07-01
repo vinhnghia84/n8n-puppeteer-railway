@@ -1,16 +1,17 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra')
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
 
-(async () => {
+puppeteer.use(StealthPlugin())
+
+;(async () => {
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  })
 
-  const page = await browser.newPage();
-  await page.goto('https://www.aeoneshop.com', { waitUntil: 'networkidle2' });
+  const page = await browser.newPage()
+  await page.goto('https://www.aeonshop.com', { waitUntil: 'domcontentloaded' })
 
-  const html = await page.content();
-  console.log(html);
-
-  await browser.close();
-})();
+  console.log('✅ Truy cập aeonshop thành công')
+  await browser.close()
+})()
